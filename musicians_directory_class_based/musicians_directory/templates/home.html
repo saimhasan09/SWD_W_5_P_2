@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-center fw-bolder m-4">Available albums</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Musician Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Album Rating</th>
+            <th scope="col">Instrument Type</th>
+            <th scope="col">Album Name</th>
+            <th scope="col">Release Date</th>
+            {% if request.user.is_authenticated %}
+            <th scope="col">Actions</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for album in albums %}
+        <tr>
+            <th scope="row">{{ album.id }}</th>
+            <td>{{ album.musician_name.first_name }} {{ album.musician_name.last_name }}</td>
+            <td>{{ album.musician_name.email }}</td>
+            <td>{{ album.rating }}</td>
+            <td>{{ album.musician_name.instrument }}</td>
+            <td>{{ album.name }}</td>
+            <td>{{ album.release_date }}</td>
+            <td>
+                <!-- Add your actions/buttons here -->
+                <!-- Example: Edit and Delete buttons -->
+                {% if request.user.is_authenticated %}
+                <a class="btn btn-warning" href="{% url 'edit_album' album.id %}">Edit</a>
+                <a class="btn btn-danger" href="{% url 'delete_album' album.id %}">Delete</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
